@@ -8,7 +8,7 @@ export default function Avatar() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
-            className="interactive-avatar relative z-10 flex h-60 w-60 items-center justify-center rounded-full bg-gradient-to-tr from-violet-600 to-indigo-600 shadow-[0_0_80px_-10px_rgba(139,92,246,0.5)] md:h-[360px] md:w-[360px]"
+            className="interactive-avatar relative z-10 flex h-48 w-48 items-center justify-center rounded-full bg-gradient-to-tr from-violet-600 to-indigo-600 shadow-[0_0_80px_-10px_rgba(139,92,246,0.5)] md:h-[300px] md:w-[300px]"
         >
             {/* Glow Effect */}
             <motion.div

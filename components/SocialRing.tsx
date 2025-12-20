@@ -8,7 +8,7 @@ const SOCIAL_LINKS = [
     { label: 'Reddit', iconSrc: '/reddit.svg', href: 'https://reddit.com/user/th3_willy' },
     { label: 'Mail', iconSrc: '/gmail.svg', href: 'mailto:kalki@duck.com' },
     { label: 'LinkedIn', iconSrc: '/linkedin.svg', href: 'https://linkedin.com/in/prabhaw-kr' },
-    { label: 'Medium', iconSrc: '/medium.svg', href: 'https://medium.com/prabhaw_kr' },
+    { label: 'Portfolio', iconSrc: '/logo.jpg', href: 'https://prabhaw.vercel.app/' },
     { label: 'X', iconSrc: '/twitterx.svg', href: 'https://x.com/prabhaw_kr/' },
 ];
 
@@ -19,7 +19,7 @@ export default function SocialRing() {
     useEffect(() => {
         const handleResize = () => {
             // Slightly increased radius for the larger avatar
-            setRadius(window.innerWidth < 768 ? 220 : 360);
+            setRadius(window.innerWidth < 768 ? 160 : 280);
         };
 
         handleResize(); // Initial set

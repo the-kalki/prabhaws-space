@@ -8,9 +8,9 @@ export default function Title() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="absolute bottom-[-110px] text-center"
+            className="absolute bottom-[-100px] text-center"
         >
-            <h1 className="text-3xl font-light tracking-[0.2em] text-foreground/90 md:text-4xl">
+            <h1 className="text-2xl font-light tracking-[0.2em] text-foreground/90 md:text-3xl">
                 PRABHAW’S SPACE
             </h1>
             <motion.div
