@@ -17,6 +17,7 @@ export default function Cursor() {
     const [isVisible, setIsVisible] = useState(false);
     const [isInteractive, setIsInteractive] = useState(false);
     const [bubbles, setBubbles] = useState<Bubble[]>([]);
+    const [foregroundRgb, setForegroundRgb] = useState('15, 23, 42');
     const bubbleIdCounter = useRef(0);
 
     const mouseX = useMotionValue(0);
@@ -25,6 +26,29 @@ export default function Cursor() {
     const springConfig = { damping: 25, stiffness: 300 };
     const cursorX = useSpring(mouseX, springConfig);
     const cursorY = useSpring(mouseY, springConfig);
+
+    useEffect(() => {
+        // Get the foreground-rgb CSS variable value
+        const getForegroundRgb = () => {
+            const root = document.documentElement;
+            const computed = getComputedStyle(root).getPropertyValue('--foreground-rgb').trim();
+            return computed || '15, 23, 42';
+        };
+
+        setForegroundRgb(getForegroundRgb());
+
+        // Update when theme changes
+        const observer = new MutationObserver(() => {
+            setForegroundRgb(getForegroundRgb());
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class'],
+        });
+
+        return () => observer.disconnect();
+    }, []);
 
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
@@ -101,8 +125,8 @@ export default function Cursor() {
                 <motion.div
                     animate={{
                         scale: isInteractive ? 1.5 : 1,
-                        backgroundColor: isInteractive ? 'rgba(var(--foreground-rgb), 0.2)' : 'rgba(var(--foreground-rgb), 0.1)',
-                        borderColor: isInteractive ? 'rgba(var(--foreground-rgb), 0.6)' : 'rgba(var(--foreground-rgb), 0.4)',
+                        backgroundColor: isInteractive ? `rgba(${foregroundRgb}, 0.2)` : `rgba(${foregroundRgb}, 0.1)`,
+                        borderColor: isInteractive ? `rgba(${foregroundRgb}, 0.6)` : `rgba(${foregroundRgb}, 0.4)`,
                     }}
                     className="h-full w-full rounded-full border backdrop-blur-[2px] transition-all duration-300"
                 />

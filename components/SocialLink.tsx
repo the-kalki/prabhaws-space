@@ -22,6 +22,7 @@ export default function SocialLink({ label, icon: Icon, iconSrc, href, x, y }: S
             href={href}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`Visit ${label}`}
             className="absolute flex items-center justify-center preserve-3d -translate-x-1/2 -translate-y-1/2"
             style={{ x, y, left: '50%', top: '50%' }}
             initial={{ scale: 0, opacity: 0 }}

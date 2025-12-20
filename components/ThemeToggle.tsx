@@ -6,15 +6,14 @@ import { motion } from 'framer-motion';
 
 export default function ThemeToggle() {
     const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
-        if (savedTheme) {
-            setTheme(savedTheme);
-            document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-        } else {
-            document.documentElement.classList.add('dark');
-        }
+        const initialTheme = savedTheme || 'dark';
+        setTheme(initialTheme);
+        document.documentElement.classList.toggle('dark', initialTheme === 'dark');
     }, []);
 
     const toggleTheme = () => {
@@ -23,6 +22,13 @@ export default function ThemeToggle() {
         document.documentElement.classList.toggle('dark', newTheme === 'dark');
         localStorage.setItem('theme', newTheme);
     };
+
+    // Prevent hydration mismatch by not rendering until mounted
+    if (!mounted) {
+        return (
+            <div className="fixed bottom-6 left-6 z-50 h-14 w-14" aria-hidden="true" />
+        );
+    }
 
     return (
         <motion.button
