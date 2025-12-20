@@ -8,7 +8,7 @@ const SOCIAL_LINKS = [
     { label: 'Reddit', iconSrc: '/reddit.svg', href: 'https://reddit.com/user/th3_willy' },
     { label: 'Mail', iconSrc: '/gmail.svg', href: 'mailto:kalki@duck.com' },
     { label: 'LinkedIn', iconSrc: '/linkedin.svg', href: 'https://linkedin.com/in/prabhaw-kr' },
-    { label: 'Portfolio', iconSrc: '/logo.jpg', href: 'https://prabhaw.vercel.app/' },
+    { label: 'Portfolio', iconSrc: '/portfolio.jpg', href: 'https://prabhaw.vercel.app/' },
     { label: 'X', iconSrc: '/twitterx.svg', href: 'https://x.com/prabhaw_kr/' },
 ];
 
