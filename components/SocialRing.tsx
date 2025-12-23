@@ -31,7 +31,7 @@ export default function SocialRing() {
     }, []);
 
     return (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
             {SOCIAL_LINKS.map((link, index) => {
                 const angle = (index / totalLinks) * 2 * Math.PI - Math.PI / 2;
                 const x = Math.cos(angle) * radius;
