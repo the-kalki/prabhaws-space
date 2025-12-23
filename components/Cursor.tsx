@@ -9,6 +9,7 @@ interface Bubble {
     y: number;
     color: string;
     size: number;
+    xOffset: number;
 }
 
 const COLORS = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899'];
@@ -34,8 +35,9 @@ export default function Cursor() {
             const computed = getComputedStyle(root).getPropertyValue('--foreground-rgb').trim();
             return computed || '15, 23, 42';
         };
-
-        setForegroundRgb(getForegroundRgb());
+        requestAnimationFrame(() => {
+            setForegroundRgb(getForegroundRgb());
+        });
 
         // Update when theme changes
         const observer = new MutationObserver(() => {
@@ -70,6 +72,7 @@ export default function Cursor() {
                     y: e.clientY,
                     color: COLORS[Math.floor(Math.random() * COLORS.length)],
                     size: Math.random() * 15 + 8,
+                    xOffset: (Math.random() - 0.5) * 60,
                 };
                 setBubbles((prev) => [...prev.slice(-20), newBubble]);
 
@@ -82,7 +85,9 @@ export default function Cursor() {
 
         window.addEventListener('mousemove', moveCursor);
         const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        if (isTouch) setIsVisible(false);
+        if (isTouch) {
+            requestAnimationFrame(() => setIsVisible(false));
+        }
 
         return () => window.removeEventListener('mousemove', moveCursor);
     }, [mouseX, mouseY, isVisible]);
@@ -100,7 +105,7 @@ export default function Cursor() {
                             opacity: 0,
                             scale: 1.5,
                             y: bubble.y - 100, // Drifts further for natural feel
-                            x: bubble.x + (Math.random() - 0.5) * 60
+                            x: bubble.x + bubble.xOffset
                         }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
@@ -116,7 +121,7 @@ export default function Cursor() {
             </AnimatePresence>
 
             <motion.div
-                className="pointer-events-none fixed left-0 top-0 z-[100] hidden h-8 w-8 items-center justify-center md:flex"
+                className="pointer-events-none fixed left-0 top-0 z-[100] hidden h-10 w-10 items-center justify-center md:flex"
                 style={{
                     x: cursorX,
                     y: cursorY,
@@ -125,14 +130,16 @@ export default function Cursor() {
                 <motion.div
                     animate={{
                         scale: isInteractive ? 1.5 : 1,
-                        backgroundColor: isInteractive ? `rgba(${foregroundRgb}, 0.2)` : `rgba(${foregroundRgb}, 0.1)`,
-                        borderColor: isInteractive ? `rgba(${foregroundRgb}, 0.6)` : `rgba(${foregroundRgb}, 0.4)`,
+                        backgroundColor: isInteractive ? `rgba(${foregroundRgb}, 0.15)` : `rgba(${foregroundRgb}, 0.05)`,
+                        borderColor: `rgba(${foregroundRgb}, 0.8)`, // Higher contrast border
+                        borderWidth: '2px',
+                        boxShadow: `0 0 10px rgba(${foregroundRgb}, 0.3)` // Subtle glow
                     }}
-                    className="h-full w-full rounded-full border backdrop-blur-[2px] transition-all duration-300"
+                    className="h-full w-full rounded-full border backdrop-blur-[1px] transition-all duration-300"
                 />
-                {/* Inner Dot */}
+                {/* Inner Dot - Stronger */}
                 {!isInteractive && (
-                    <div className="absolute h-1.5 w-1.5 rounded-full bg-foreground opacity-80" />
+                    <div className="absolute h-2 w-2 rounded-full bg-foreground shadow-[0_0_5px_rgba(255,255,255,0.5)]" />
                 )}
             </motion.div>
         </>

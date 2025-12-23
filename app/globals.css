@@ -1,16 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --foreground-rgb: 15, 23, 42;
-  --accent: #8b5cf6;
-}
-
-.dark {
   --background: #030303;
   --foreground: #ffffff;
   --foreground-rgb: 255, 255, 255;
+  --accent: #8b5cf6;
 }
 
 @theme inline {
@@ -21,12 +15,18 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Fix for icons */
+.dark-icon-wrapper img {
+  filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255, 255, 255, 0.5)) !important;
+}
+
 body {
-  background-color: var(--background);
+  /* background-color: var(--background); */
+  background-color: transparent;
   color: var(--foreground);
   font-family: var(--font-geist-sans), sans-serif;
   overflow: hidden;
-  transition: background-color 0.5s ease, color 0.5s ease;
+  transition: color 0.5s ease;
   @apply antialiased;
 }
 

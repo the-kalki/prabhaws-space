@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import SocialLink from './SocialLink';
 
 const SOCIAL_LINKS = [
-    { label: 'GitHub', iconSrc: '/github.svg', href: 'https://github.com/the-kalki' },
-    { label: 'Reddit', iconSrc: '/reddit.svg', href: 'https://reddit.com/user/th3_willy' },
-    { label: 'Mail', iconSrc: '/gmail.svg', href: 'mailto:kalki@duck.com' },
-    { label: 'LinkedIn', iconSrc: '/linkedin.svg', href: 'https://linkedin.com/in/prabhaw-kr' },
-    { label: 'Portfolio', iconSrc: '/portfolio.jpg', href: 'https://prabhaw.vercel.app/' },
-    { label: 'X', iconSrc: '/twitterx.svg', href: 'https://x.com/prabhaw_kr/' },
+    { label: 'GitHub', iconSrc: '/github.svg', href: 'https://github.com/the-kalki', brandColor: '#2b3137', iconColor: '#ffffff' },
+    { label: 'Reddit', iconSrc: '/reddit.svg', href: 'https://reddit.com/user/th3_willy', brandColor: '#FF4500', iconColor: '#ffffff' },
+    { label: 'Mail', iconSrc: '/gmail.svg', href: 'mailto:kalki@duck.com', brandColor: '#D44638', iconColor: '#ffffff' },
+    { label: 'LinkedIn', iconSrc: '/linkedin.svg', href: 'https://linkedin.com/in/prabhaw-kr', brandColor: '#0A66C2', iconColor: '#ffffff' },
+    { label: 'Portfolio', iconSrc: '/portfolio.jpg', href: 'https://prabhaw.vercel.app/', brandColor: '#8B5CF6', iconColor: '#ffffff' },
+    { label: 'X', iconSrc: '/twitterx.svg', href: 'https://x.com/prabhaw_kr/', brandColor: '#000000', iconColor: '#ffffff' },
 ];
 
 export default function SocialRing() {
@@ -17,21 +17,23 @@ export default function SocialRing() {
     const totalLinks = SOCIAL_LINKS.length;
 
     useEffect(() => {
-        const handleResize = () => {
-            // Slightly increased radius for the larger avatar
-            setRadius(window.innerWidth < 768 ? 160 : 280);
+        const updateRadius = () => {
+            const width = window.innerWidth;
+            if (width < 640) setRadius(125); // Slightly tighter for mobile safety
+            else if (width < 768) setRadius(180);
+            else if (width < 1024) setRadius(220);
+            else setRadius(260);
         };
 
-        handleResize(); // Initial set
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        updateRadius();
+        window.addEventListener('resize', updateRadius);
+        return () => window.removeEventListener('resize', updateRadius);
     }, []);
 
     return (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             {SOCIAL_LINKS.map((link, index) => {
-                // Calculate position on the circle
-                const angle = (index / totalLinks) * 2 * Math.PI - Math.PI / 2; // Start from top (-90deg)
+                const angle = (index / totalLinks) * 2 * Math.PI - Math.PI / 2;
                 const x = Math.cos(angle) * radius;
                 const y = Math.sin(angle) * radius;
 
@@ -41,8 +43,10 @@ export default function SocialRing() {
                             label={link.label}
                             iconSrc={link.iconSrc}
                             href={link.href}
+                            brandColor={link.brandColor}
                             x={x}
                             y={y}
+                            delay={0.5 + index * 0.1}
                         />
                     </div>
                 );
